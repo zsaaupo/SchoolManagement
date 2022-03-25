@@ -1,0 +1,137 @@
+{% extends "layout/base.html" %}
+{% block title %} Student's list {% endblock %}
+{% block body %}
+<br>
+<h1 style="text-align: center;">Student's SingUp</h1>
+<br>
+<div id="main_input" style="text-align: center;">
+    <form enctype="multipart/form-data" id="form_sign_up" method="POST" action="#">
+        {% csrf_token %}
+        <label for="full_name">Full Name:</label><br>
+        <input required type="text" id="full_name" name="full_name" value="" placeholder="Full name"><br><br>
+        <label for="father_name">Father Name:</label><br>
+        <input required type="text" id="father_name" name="father_name" value="" placeholder="Father Name"><br><br>
+        <label for="mother_name">Mother Name:</label><br>
+        <input required type="text" id="mother_name" name="mother_name" value="" placeholder="Mother Name"><br><br>
+        <label for="gender">Gender</label>
+        <select required name="gender" id="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select><br><br>
+        <label for="religion">Religion</label>
+        <select required name="religion" id="religion">
+            <option value="Islam">Islam</option>
+            <option value="Hindu">Female</option>
+            <option value="Christian">Christian</option>
+            <option value="Buddha">Buddha</option>
+        </select><br><br>
+        <label for="birth_date">Birth date:</label><br>
+        <input required type="date" id="birth_date" name="birth_date"><br><br>
+        <label for="address">Address:</label><br>
+        <input required type="text" id="address" name="address"><br><br>
+        <label for="blood_group">Blood group</label>
+        <select required name="blood_group" id="blood_group">
+            <option value="none">none</option>
+            <option value="A+">A+</option>
+            <option value="B+">B+</option>
+            <option value="A-">A-</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+        </select><br><br>
+        <label for="email">Email:</label><br>
+        <input required pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" title="Please enter a valid email." type="text" id="email" name="email" value="" placeholder="Email"><br><br>
+        <label for="nationality">Nationality:</label><br>
+        <input type="text" id="nationality" name="nationality" value="Bangladeshi" placeholder="Bangladeshi"><br><br>
+        <label for="phone">Phone :</label><br>
+        <input required pattern="^01[13-9]\d{8}$" title ="Please enter a valid phone number." type="text" id="phone" name="phone" value="" placeholder="Phone"><br><br>
+        <label for="password">Password:</label><br>
+        <input required pattern="(?=.?[0-9])(?=.*?[A-Za-z]).+" title ="Please enter a valid password." type="text" id="password" name="password" value="" placeholder="Password"><br><br>
+        <label for="profile_picture">Profile Picture:</label><br>
+        <input type="file" pattern="/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i" required accept="image/png, image/gif, image/jpeg" id="profile_picture" name="profile_picture"  placeholder="Image"><br><br>
+        <p id="error"></p><br>
+        <label class="form-check-label" for="check1">
+            <input required type="checkbox" class="form-check-input" id="check1" name="option1" value="yes" checked>You are accepting all of our terms and conditions
+        </label><br><br><br><br>
+        <div>
+            <button type="submit">
+                Sing Up
+            </button><br><br>
+        </div>
+    </form>
+</div>
+<div id="otp_input" style="text-align: center;">
+    <label for="otp">OTP:</label><br>
+    <input type="text" id="otp" name="otp" value="" placeholder="Enter OTP"><br><br>
+    <input type="submit" value="Submit OTP" id="submit_otp">
+</div>
+
+<script>
+    $('#home').removeClass('active')
+    $('#teacher').removeClass('active')
+    $('#student').removeClass('active')
+    $('#singup').addClass('active')
+    $('#otp_input').hide()
+    $('#form_sign_up').submit(function(event){
+        event.preventDefault()
+        console.log(event)
+        var data_str = new FormData(document.getElementById('form_sign_up'));
+        var image = document.forms["form_sign_up"]["profile_picture"].value;
+        console.log(image)
+        image=image.split('.')
+        if(image[(image.length)-1]==='jpg'){
+            console.log("test")
+            $.ajax({
+              type:"POST",
+              headers: {"X-CSRFToken": '{{csrf_token}}'},
+              enctype:'multipart/form-data',
+              processData:false,
+              async:false,
+              cache:false,
+              contentType:false,
+              url: "http://127.0.0.1:8000/students/api_student_sing_up/",
+              data: data_str,
+              success: function(value){
+                console.log(value)
+                if(value.status==200){
+                  console.log(value.email)
+                  localStorage.setItem('email', value.email)
+                  $('#main_input').hide()
+                  $('#otp_input').show()
+                }
+              },
+              error: function(errormsg){
+                console.log(errormsg)
+              }
+            });
+            }
+            else {
+            $("#error").html("Please provide a valid image.")
+        }
+    })
+    $('#submit_otp').click(function(){
+        var data = {}
+        data['email']=localStorage.getItem('email')
+        data['otp']=$("#otp").val()
+        $.ajax({
+        type:"PUT",
+        url:"http://127.0.0.1:8000/students/otp_check_api/",
+        data:JSON.stringify(data),
+        success: function(data){
+        console.log(data)
+        if(data.status==200){
+          $("#otp_input").html("Success go to sign page")
+        }
+        else{
+          $("#otp_input").append(`<br>Some thing is wrong check and resubmit the OTP`)
+        }
+      },
+      error: function(errormsg){
+        $('#error').html(errormsg.message)
+      }
+    })
+  })
+</script>
+{% endblock %}
+

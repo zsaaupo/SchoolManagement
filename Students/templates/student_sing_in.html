@@ -1,0 +1,48 @@
+{% extends "layout/base.html" %}
+{% block title %} Student's list {% endblock %}
+{% block body %}
+<br>
+<h1 style="text-align: center;">Student's SingIn</h1>
+<br>
+<div id="main_input" style="text-align: center;">
+    {% csrf_token %}
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" value="" placeholder="Email"><br><br>
+    <label for="password">Password:</label><br>
+    <input type="text" id="password" name="password" value="" placeholder="Password"><br><br>
+
+    <input type="submit" value="Sing In" id="submit_sing_in">
+</div>
+<script>
+    $('#home').removeClass('active')
+    $('#teacher').removeClass('active')
+    $('#student').removeClass('active')
+    $('#singup').removeClass('active')
+    $('#singin').addClass('active')
+    $("#submit_sing_in").click(function(){
+        var data_str={}
+        data_str['email']=$("#email").val()
+        data_str['password']=$("#password").val()
+        console.log(data_str)
+        $.ajax({
+            type:"POST",
+            url: "http://127.0.0.1:8000/students/api_student_sing_in/",
+            data: JSON.stringify(data_str),
+            headers: {"X-CSRFToken": '{{csrf_token}}'},
+            success: function(value){
+              if(value.status==200){
+                console.log(value)
+                localStorage.setItem('access',value.access)
+                localStorage.setItem('user_name',value.user_name)
+                window.location="/"
+              }
+            },
+            error: function(errormsg){
+              console.log(errormsg)
+            }
+        });
+    })
+
+</script>
+{% endblock %}
+

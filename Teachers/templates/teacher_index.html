@@ -1,0 +1,13 @@
+{% extends "layout/base.html" %}
+{% block title %} Students {% endblock %}
+{% block body %}
+<div class="buttons">
+    <br>
+    <br>
+    <button id="button"><a href="list/">Teacher's list</a></button><br>
+</div>
+<script>
+    $('#home').removeClass('active')
+    $('#teacher').addClass('active')
+</script>
+{% endblock %}

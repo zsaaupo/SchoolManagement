@@ -1,0 +1,25 @@
+{% extends "layout/base.html" %}
+{% block title %} Teacher's list {% endblock %}
+{% block body %}
+<br>
+<h1 style="text-align: center;">Teacher's List</h1>
+<br>
+    {% for dt in td %}
+        <div class="card">
+            <div class="card-header">
+                Id : {{ dt.id }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Name : {{ dt.full_name }}</h5>
+                <p class="card-text">Gender: {{ dt.gender }} </p>
+                <p class="card-text">Phone : {{ dt.phone }} </p>
+                <p class="card-text">Email : {{ dt.email }} </p>
+                <a target="_blank" href="/teachers/details/{{ dt.id }}" class="btn btn-primary">Details</a>
+            </div>
+        </div>
+    {% endfor %}
+<script>
+    $('#home').removeClass('active')
+    $('#teacher').addClass('active')
+</script>
+{% endblock %}

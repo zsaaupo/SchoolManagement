@@ -1,0 +1,77 @@
+*{padding: 0; margin: auto;}
+.menu ul li{
+position: relative;
+display: inline-block;
+padding: 20px 30px;
+}
+.menu ul li a{
+text-decoration: none;
+color: black;
+font-size: 25px;
+}
+.menu {
+text-align: center;
+background-color: white;
+position: fixed;
+top: 0;
+width: 100%;
+box-shadow: 0px 0px 7px gray
+
+}
+.body_start{
+margin-top: 45px;
+}
+
+.home_text{
+text-align: center;
+padding: 50px;
+}
+#welcome_text{
+font-size: 60px
+}
+.buttons{
+text-align: center;
+}
+#button {
+  padding: 15px 250px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  background-color: white;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0px 0px 7px gray;
+}
+#button:hover{
+background-color: #C5C5C5;
+}
+#button:active{
+  background-color: gray;
+  box-shadow: 0px 0px 7px gray;
+  transform: translateY(4px);
+ }
+#button a{
+text-decoration: none;
+color: black;
+}
+.student_info{
+margin: auto;
+width: 45%;
+font-size: 23px;
+}
+.class_text{
+text-align: center;
+}
+.menu li a:hover:not(.active) {
+  background-color: #C5C5C5;
+  border-radius: 15px;
+  padding: 15px 0px;
+ }
+.active{
+background-color: #C5C5C5;
+border-radius: 15px;
+padding: 15px 0px;
+}

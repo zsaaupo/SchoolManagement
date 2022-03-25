@@ -1,0 +1,52 @@
+{% extends "layout/base.html" %}
+{% block title %} {{ tdd.full_name }} details {% endblock %}
+{% block body %}
+<br>
+<h1 style="text-align: center;">Teacher's Details</h1>
+<br>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="{{ media_url }}{{ tdd.profile_picture }}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Name : {{ tdd.full_name }} ({{ tdd.id }})</h5>
+        <p class="card-text">Position : {{ tdd.Position }}</p>
+        <p class="card-text">Gender : {{ tdd.gender }}</p>
+        <p class="card-text">Religion : {{ tdd.religion }}</p>
+        <p class="card-text">Birth date : {{ tdd.birth_date }}</p>
+        <p class="card-text">Marital status : {{ tdd.marital_status }}</p>
+        <p class="card-text">Email : {{ tdd.email }}</p>
+        <p class="card-text">Phone : {{ tdd.phone }}</p>
+        <p class="card-text">Address : {{ tdd.address }}</p>
+        <p class="card-text">Blood group : {{ tdd.blood_group }}</p>
+        <p class="card-text">Nationality : {{ tdd.nationality }}</p>
+
+        {% if tdd.Teacher_Education.all %}
+            <br>
+            <h5 class="card-text">Education</h5>
+            <br>
+            {% for i in tdd.Teacher_Education.all %}
+                <p class="card-text">Certificate : {{ i.certificate }}</p>
+                <p class="card-text">Result : {{ i.result }}</p>
+                <p class="card-text">On a scale_of : {{ i.On_a_scale_of }}</p>
+                <p class="card-text">Institute : {{ i.institute }}</p>
+                <p class="card-text">Board : {{ i.board }}</p>
+                <p class="card-text">Passing year : {{ i.passing_year }}</p>
+                <br>
+            {% endfor %}
+        {% endif %}
+        {% if tdd.Teacher_Experience.all %}
+            <h5>Teacher Experience</h5>
+            <br>
+            {% for j in tdd.Teacher_Experience.all %}
+                <p class="card-text">Job title : {{ j.job_title }}</p>
+                <p class="card-text">Joining date : {{ j.joining_date }}</p>
+                <p class="card-text">Leaving date : {{ j.leaving_date }}</p>
+                <p class="card-text">Job detail : {{ j.job_detail }}</p>
+            {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+<script>
+    $('#home').removeClass('active')
+    $('#teacher').addClass('active')
+</script>
+{% endblock %}

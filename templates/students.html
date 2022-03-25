@@ -1,0 +1,33 @@
+{% extends "layout/base.html" %}
+{% block title %} Student information {% endblock %}
+{% block body %}
+<div class="class_text">
+    <br>
+    <h1>All student's information of this class</h1>
+    <br>
+    <br>
+</div>
+<div class="student_info">
+    {% for value in i %}
+    Name : {{ value.student.full_name }} <br>
+    Roll : {{ value.roll }} <br>
+    Father's name : {{ value.student.father_name }} <br>
+    Mother's name : {{ value.student.mother_name }} <br>
+    Gender : {{ value.student.gender }} <br>
+    Religion : {{ value.student.religion }} <br>
+    Birth date : {{ value.student.birth_date }} <br>
+    Email : {{ value.student.email }} <br>
+    Phone : {{ value.student.phone }} <br>
+    Address : {{ value.student.address }} <br>
+    Blood group : {{ value.student.blood_group }} <br>
+    Nationality : {{ value.student.nationality }} <br>
+    <br>
+    <br>
+{% endfor %}
+</div>
+<script>
+    $('#classes').html("Students")
+    $('#home').removeClass('active')
+    $('#classes').addClass('active')
+</script>
+{% endblock %}

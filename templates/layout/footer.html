@@ -1,0 +1,25 @@
+<footer style="
+    background-color : white;
+    box-shadow: 0px 0px 7px gray;
+    position: fixed;
+    height: 70px;
+    bottom: 0;
+    width: 100%">
+  <div id="footer_data" class="footer-copyright text-center py-3">
+  </div>
+</footer>
+<script>
+  $.ajax({
+    type : "GET",
+    url : "http://127.0.0.1:8000/settings/footer_data",
+    success: function(value){
+        $('#footer_data').append(`
+          <a>Contract Number : </a><a>${ value.phone }</a><br>
+          Copyright © <a> ${ value.year } </a><a> ${value.copyright_owner} </a>
+        `)
+    },
+    error: function(errormsg){
+      console.log(errormsg)
+    }
+  });
+</script>

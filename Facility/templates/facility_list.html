@@ -1,0 +1,33 @@
+{% extends "layout/base.html" %}
+{% block title %} Facility's list {% endblock %}
+{% block body %}
+<br>
+<h1 style="text-align: center;">Facility's List</h1>
+<br>
+<div class="card" style="width: 18rem;">
+</div>
+<script>
+    $('#home').removeClass('active')
+    $('#teacher').removeClass('active')
+    $('#student').removeClass('active')
+    $('#facility').addClass('active')
+    $.ajax({
+        type:"GET",
+        url: "http://127.0.0.1:8000/facility/api_list/",
+        success: function(value){
+            for(var x = 0; x < value.length; x++){
+                $('.card').append(`
+                    <div class="card-body">
+                    <img class="card-img-top" src="${ value[x].facility_image }" alt="Card image cap"><br>
+                    <h5 class="card-title">${ value[x].facility_name }</h5>
+                    <a target="_blank" href="details/${ value[x].id }/" class="btn btn-primary">Details</a>
+                </div>
+            `)
+            }
+        },
+        error: function(errormsg){
+            console.log(errormsg)
+        }
+    });
+</script>
+{% endblock %}

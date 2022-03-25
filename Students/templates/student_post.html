@@ -1,0 +1,140 @@
+{% extends "layout/base.html" %}
+{% block title %} Student Post {% endblock %}
+{% block body %}
+<br>
+<h1 style="text-align: center;">Student Post</h1>
+
+<div id="log_info" style="text-align: center;">
+    <h2>Please Sign in</h2>
+</div>
+
+<div class="buttons" id="post_nav">
+    <br>
+    <br>
+    <button class="create_post" id="button"><a>Create Post</a></button><br>
+    <br>
+    <button class="watch_post" id="button"><a>Watch Posts</a></button><br>
+</div>
+
+
+<br>
+<div class="card" style="width: 38rem;">
+</div>
+
+
+<form enctype="multipart/form-data" id="form_data"  method="POST" action="#">
+    {% csrf_token %}
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Write your post</span>
+      </div>
+      <textarea name="post_text" class="form-control" aria-label="With textarea"></textarea>
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Upload</span>
+          <br>
+          <br>
+      </div>
+      <div class="custom-file">
+        <input type="file" name="post_picture" class="custom-file-input" id="inputGroupFile01">
+        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+      </div>
+    </div>
+    <div class="buttons" id="post_now">
+        <br>
+        <br>
+        <button type="submit">Post now</button><br>
+        <br>
+    </div>
+</form>
+
+<script>
+    $('.input-group').hide()
+    $('#post_now').hide()
+    $('#log_info').hide()
+    $('.card').hide()
+    $('#home').removeClass('active')
+    $('#teacher').removeClass('active')
+    $('#student').removeClass('active')
+    $('#singup').removeClass('active')
+    $('#student_post').addClass('active')
+    $('.watch_post').click(function(){
+        $('#post_nav').hide()
+        $('.card').show()
+        $.ajax({
+            type:"GET",
+            url: "http://127.0.0.1:8000/students/student_post_list_api/",
+            success: function(value){
+                for(var x = 0; x < value.length; x++){
+                    var image = ''
+                    if(value[x].post_picture){
+                        image = `<img class="card-img-top" src="${ value[x].post_picture }" alt="Card image cap"><br>`
+                    }
+                    var user = ""
+                    if(value[x].user){
+                        user = value[x].user.username
+                    var text = ""
+                    if(value[x].post_text){
+                        text = value[x].post_text
+                    }
+                    }
+                    $('.card').append(`
+                        <div class="card-body">
+                            ${ user }
+                            ${ image }
+                            <p id="posted_at" class="card-text">Posted at : ${ value[x].create_at }</p>
+                            <p class="card-text">${ text }</p>
+                        </div>
+                `)
+                if(value[x].modified_at){
+                                $('#posted_at').html(`
+                                    <p id="time" class="card-text">Modified at : ${ value[x].modified_at }</p>
+                                `)
+                            }
+                }
+            },
+            error: function(errormsg){
+            console.log(errormsg)
+        }
+        });
+    })
+    $('.create_post').click(function(){
+        if(localStorage.getItem('access')){
+            $('.input-group').show()
+            $('#post_now').show()
+            $('#post_nav').hide()
+        }
+        else{
+            $('#log_info').show()
+            $('#post_nav').hide()
+        }
+    })
+    $('#form_data').submit(function(event){
+        event.preventDefault()
+        var post_data = new FormData(document.getElementById('form_data'));
+        var image = document.forms["form_data"]["inputGroupFile01"].value;
+        console.log(post_data)
+        $.ajax({
+            type:"POST",
+            headers: {"X-CSRFToken": '{{csrf_token}}', 'Authorization': 'Bearer '+localStorage.getItem('access')},
+            headers: {Authorization: 'Bearer '+localStorage.getItem('access')},
+            enctype:'multipart/form-data',
+            processData:false,
+            async:false,
+            cache:false,
+            contentType:false,
+            url: "http://127.0.0.1:8000/students/student_post_api/",
+            data: post_data,
+            success: function(value){
+                console.log(value)
+            },
+            error: function(errormsg){
+              console.log(errormsg)
+            }
+        });
+    })
+</script>
+{% endblock %}
+

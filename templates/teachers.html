@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher</title>
+</head>
+<body>
+{% for i in value %}
+    name: {{ i.full_name }} <br>
+    {% if i.Teacher_Education.all %}
+        {% for z in i.Teacher_Education.all %}
+            certificate : {{ z.certificate }} <br>
+            result : {{ z.result }} <br>
+            institute : {{ z.institute }} <br>
+        {% endfor %}
+    {% endif %} <br>
+    {% if i.Teacher_Experience.all %}
+        {% for x in i.Teacher_Experience.all %}
+            job title : {{ x.job_title }} <br>
+        {% endfor %}
+    {% endif %} <br>
+{% endfor %}
+
+</body>
+</html>

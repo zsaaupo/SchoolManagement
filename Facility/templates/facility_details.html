@@ -1,0 +1,35 @@
+{% extends "layout/base.html" %}
+{% block title %} Facility's list {% endblock %}
+{% block body %}
+<br>
+<h1 style="text-align: center;">Facility Details</h1>
+<br>
+<div class="card" style="width: 18rem;">
+</div>
+<script>
+    $('#home').removeClass('active')
+    $('#teacher').removeClass('active')
+    $('#student').removeClass('active')
+    $('#facility').addClass('active')
+    var path = window.location.pathname.split('/');
+    console.log(path[3]);
+    var url = "http://127.0.0.1:8000/facility/api_details/"+path[3]+"/";
+    console.log(url);
+    $.ajax({
+        type:"GET",
+        url: url,
+        success: function(value){
+            $('.card').html(`
+                <div class="card-body">
+                    <img class="card-img-top" src="${ value.facility_image }" alt="Card image cap"><br>
+                    <h5 class="card-title">${ value.facility_name }</h5>
+                    <p class="card-text">${ value.facility_details }</p>
+                </div>
+            `)
+        },
+        error: function(errormsg){
+            console.log(errormsg)
+        }
+    });
+</script>
+{% endblock %}

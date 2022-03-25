@@ -1,0 +1,71 @@
+{% extends "layout/base.html" %}
+{% block title %} Student details {% endblock %}
+{% block body %}
+<br>
+<h1 style="text-align: center;">Student's Details</h1>
+<br>
+<div class="card" style="width: 18rem;">
+</div>
+<script>
+    $('#home').removeClass('active')
+    $('#teacher').removeClass('active')
+    $('#student').addClass('active')
+    var path = window.location.pathname.split('/');
+    console.log(path[3]);
+    var url = "http://127.0.0.1:8000/students/api_details/"+path[3]+"/";
+    console.log(url);
+    $.ajax({
+        type:"GET",
+        url: url,
+        success: function(value){
+            $('.card').html(`
+                <div class="card-body">
+                    <img class="card-img-top" src="${ value.profile_picture }" alt="Card image cap"><br>
+                    <h5 class="card-title">Name : ${ value.full_name } (${ value.id })</h5>
+                    <p class="card-text">Father name : ${ value.father_name }</p>
+                    <p class="card-text">Mother name : ${ value.mother_name }</p>
+                    <p class="card-text">Gender : ${ value.gender }</p>
+                    <p class="card-text">Religion : ${ value.religion }</p>
+                    <p class="card-text">Email : ${ value.email }</p>
+                    <p class="card-text">Phone : ${ value.phone }</p>
+                    <p class="card-text">Address : ${ value.address }</p>
+                    <p class="card-text">Blood group : ${ value.blood_group }</p>
+                    <p class="card-text">Nationality : ${ value.nationality }</p>
+
+                </div>
+            `)
+            $('.card-body').append(`
+            <br>
+            <h5> Guardian Information </h5>
+            <br>
+            `)
+            for(var x=0; x<value.Guardian_Info.length; x++){
+            $('.card-body').append(`
+                <p class="card-text">Guardian name : ${ value.Guardian_Info[x].full_name}</p>
+                <p class="card-text">Phone : ${ value.Guardian_Info[x].phone}</p>
+                <p class="card-text">NID card : ${ value.Guardian_Info[x].NID_card}</p>
+                <p class="card-text">Blood group : ${ value.Guardian_Info[x].blood_group}</p>
+            `)
+            }
+            $('.card-body').append(`
+            <br>
+            <h5> Class Information </h5>
+            <br>
+            `)
+            for(var x=0; x<value.Class_info.length; x++){
+                $('.card-body').append(`
+                <p class="card-text">Class : ${ value.Class_info[x].Class}</p>
+                <p class="card-text">Roll : ${ value.Class_info[x].roll}</p>
+                <p class="card-text">Section : ${ value.Class_info[x].section}</p>
+                <p class="card-text">Admission Date : ${ value.Class_info[x].admission_date}</p>
+                <br>
+                `)
+            }
+        },
+        error: function(errormsg){
+            console.log(errormsg)
+        }
+    });
+
+</script>
+{% endblock %}

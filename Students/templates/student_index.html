@@ -1,0 +1,20 @@
+{% extends "layout/base.html" %}
+{% block title %} Students {% endblock %}
+{% block body %}
+<div class="buttons">
+    <br>
+    <br>
+    <button id="button"><a href="list/">Student's list</a></button><br>
+</div>
+<!--<div class="test">-->
+<!--    test-->
+<!--</div>-->
+<script>
+    $('#home').removeClass('active')
+    $('#teacher').removeClass('active')
+    $('#student').addClass('active')
+    for (var i=0; i<10;i++){
+       $('.test').append("test")
+       }
+</script>
+{% endblock %}
