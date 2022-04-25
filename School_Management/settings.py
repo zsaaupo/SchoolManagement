@@ -69,30 +69,30 @@ WSGI_APPLICATION = 'School_Management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'new_database',
-#         'USER': 'root',
-#         'PASSWORD': '927599',
-#         'HOST': '127.0.0.1',
-#         'PORT': '3306',
-#         'OPTIONS': {
-#             'sql_mode': 'traditional',
-#             'isolation_level': "repeatable read",
-#         },
-#         'CHARSET':'utf8',
-#         'COLLATION':'utf8_general_ci',
-#         'COLLATION_CONNECTION':'utf8_general_ci'
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'new_database',
+        'USER': 'root',
+        'PASSWORD': '927599',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+            'isolation_level': "repeatable read",
+        },
+        'CHARSET':'utf8',
+        'COLLATION':'utf8_general_ci',
+        'COLLATION_CONNECTION':'utf8_general_ci'
+    }
+}
 
 
 # Password validation
